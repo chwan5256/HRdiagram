@@ -1,0 +1,36 @@
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  scroll-behavior: smooth;
+}
+.gradient-text {
+  background: linear-gradient(to right, #6366f1, #a855f7, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.chart-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 60vh;
+  max-height: 600px;
+}
+.nav-link {
+  transition: all 0.2s ease-in-out;
+}
+.nav-link:hover {
+  color: #a855f7;
+  transform: translateY(-2px);
+}
+.filter-btn {
+  transition: all 0.2s ease-in-out;
+}
+.filter-btn.active {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
+}
+.content-card {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}

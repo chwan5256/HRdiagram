@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>고등학교 2학년 HR도 데이터 분석 실습 수업</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR도 대화형 학습 애플리케이션</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Chosen Palette: Cosmic Harmony -->
+  <!-- Application Structure Plan: The application is structured as a single-page, scroll-based narrative, guiding the user through a logical learning path. It starts with "1. HR도란?", an introduction to the core concepts. This is followed by "2. 인터랙티브 HR도", the centerpiece where users can directly interact with a data-driven chart, filtering and exploring different star types. The final section, "3. 별의 일생 탐험", builds on the previous one, allowing users to visualize stellar evolution paths on the same chart. This thematic, task-oriented structure is more intuitive and engaging for a self-directed learner than the original time-based lesson plan, fostering exploration and discovery rather than passive reception of information. -->
+  <!-- Visualization & Content Choices: 
+        - Report Info: H-R Diagram concepts (axes, star groups). Goal: Inform. Viz: Styled HTML cards with Tailwind CSS and icons (Unicode). Interaction: Subtle hover effects. Justification: Provides a quick, visually appealing introduction. Library: Tailwind CSS.
+        - Report Info: Plotting star data from a CSV. Goal: Analyze & Compare. Viz: Interactive scatter plot. Interaction: Filtering buttons to show/hide star types, tooltips on hover for detailed data, zoom/pan. Justification: Transforms the static Python plotting exercise into a dynamic, hands-on exploration tool, directly fulfilling the lesson's data analysis goal. Library: Chart.js with zoom plugin.
+        - Report Info: Stellar evolution paths. Goal: See Change & Relationships. Viz: Line overlays on the scatter plot. Interaction: Buttons to trace the evolution of different mass stars, with accompanying descriptive text updates. Justification: Makes the abstract concept of stellar evolution tangible and visually comprehensible. Library: Chart.js.
+    -->
+  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+
+<body class="bg-gray-900 text-gray-200">
+
+  <header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-sm border-b border-gray-700">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <h1 class="text-xl font-bold gradient-text">✨ HR도 탐험</h1>
+      <div class="hidden md:flex space-x-8">
+        <a href="#intro" class="nav-link font-medium">HR도란?</a>
+        <a href="#interactive-chart" class="nav-link font-medium">인터랙티브 HR도</a>
+        <a href="#evolution" class="nav-link font-medium">별의 일생</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container mx-auto px-6 py-12">
+
+    <section id="intro" class="mb-24 text-center">
+      <h2 class="text-4xl font-bold mb-4 text-white">HR도, 별들의 주민등록증</h2>
+      <p class="max-w-3xl mx-auto text-lg text-gray-400 mb-12">
+        HR도(헤르츠스프룽-러셀 도표)는 별들의 특징을 한눈에 보여주는 지도입니다. 마치 사람마다 키, 몸무게, 나이가 다르듯 별들도 밝기, 표면 온도 등 각기 다른 물리량을 가집니다. HR도는 이 정보들을 이용해 별들을 분류하고 그들의 삶을 이해하는 데 도움을 줍니다.
+      </p>
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div class="bg-gray-800/50 content-card p-6 rounded-xl border border-gray-700">
+          <h3 class="text-2xl font-bold mb-3 text-indigo-400">🌡️ 가로축: 표면 온도 (Temperature)</h3>
+          <p class="text-gray-300">별의 '피부색'과 같아요. 왼쪽으로 갈수록 뜨거운 파란색 별, 오른쪽으로 갈수록 차가운 붉은색 별이 위치합니다. 온도가 높을수록 별의 수명은 짧아지는 경향이 있습니다.</p>
+        </div>
+        <div class="bg-gray-800/50 content-card p-6 rounded-xl border border-gray-700">
+          <h3 class="text-2xl font-bold mb-3 text-rose-400">💡 세로축: 광도 (Luminosity)</h3>
+          <p class="text-gray-300">별의 '실제 밝기'를 의미합니다. 위로 갈수록 밝은 별, 아래로 갈수록 어두운 별이 위치합니다. 절대 등급으로도 표현하며, 등급 숫자가 작을수록 밝습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="interactive-chart" class="mb-24">
+      <h2 class="text-4xl font-bold mb-4 text-center text-white">인터랙티브 HR도</h2>
+      <p class="max-w-3xl mx-auto text-lg text-gray-400 mb-8 text-center">
+        아래 차트는 실제 별 데이터를 바탕으로 만들어졌습니다. 버튼을 눌러 특정 종류의 별들만 보거나, 마우스 휠로 확대/축소하며 별들의 분포를 자세히 살펴보세요. 각 점에 마우스를 올리면 별의 상세 정보가 나타납니다.
+      </p>
+
+      <div class="flex justify-center space-x-2 md:space-x-4 mb-8">
+        <button onclick="toggleStarType('주계열성')" class="filter-btn active bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-full" data-type="주계열성">주계열성</button>
+        <button onclick="toggleStarType('거성')" class="filter-btn active bg-amber-600 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-full" data-type="거성">거성/초거성</button>
+        <button onclick="toggleStarType('백색왜성')" class="filter-btn active bg-gray-400 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full" data-type="백색왜성">백색왜성</button>
+        <button onclick="resetFilters()" class="filter-btn bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-full">모두 보기</button>
+      </div>
+
+      <div class="bg-gray-800/50 content-card p-4 rounded-xl border border-gray-700">
+        <div class="chart-container">
+          <canvas id="hrDiagram"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="evolution" class="mb-16">
+      <h2 class="text-4xl font-bold mb-4 text-center text-white">별의 일생 탐험하기</h2>
+      <p class="max-w-3xl mx-auto text-lg text-gray-400 mb-8 text-center">
+        HR도는 별들이 평생에 걸쳐 어떻게 변하는지, 즉 '진화'하는지를 보여주는 중요한 단서가 됩니다. 별은 질량에 따라 각기 다른 삶을 살아갑니다. 아래 버튼을 눌러 질량이 다른 두 별의 일생을 HR도 위에서 따라가 보세요.
+      </p>
+      <div class="flex justify-center space-x-4 mb-8">
+        <button onclick="showEvolutionPath('sun')" class="filter-btn bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded-full">태양 같은 별의 일생</button>
+        <button onclick="showEvolutionPath('massive')" class="filter-btn bg-pink-600 hover:bg-pink-500 text-white font-bold py-2 px-4 rounded-full">무거운 별의 일생</button>
+        <button onclick="showEvolutionPath('reset')" class="filter-btn bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-full">경로 지우기</button>
+      </div>
+      <div id="evolution-info" class="max-w-3xl mx-auto p-6 rounded-xl bg-gray-800/50 content-card border border-gray-700 min-h-[120px]">
+        <h3 id="evolution-title" class="text-xl font-bold text-teal-400 mb-2">별의 진화 경로</h3>
+        <p id="evolution-text" class="text-gray-300">궁금한 별의 종류를 선택하면 이곳에 진화 과정에 대한 설명이 나타납니다.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-gray-700 mt-12 py-6">
+    <p class="text-center text-gray-500">지구과학1 | HR도 데이터 분석 실습</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
